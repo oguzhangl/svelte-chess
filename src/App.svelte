@@ -1,25 +1,18 @@
 <script lang="ts">
+	import { Col, Container, Row } from 'sveltestrap';
+	import 'bootstrap/dist/css/bootstrap.min.css';
 </script>
 <svelte:head>
-  <link rel="stylesheet" href="/style/style.css">
+  <link rel="stylesheet" href="style.css">
 </svelte:head>
+
+
 <main>
-<div class="grid-container">
-	<div class="cell">1</div>
-	<div class="cell">2</div>
-	<div class="cell">3</div>
-	<div class="cell">4</div>
-	<div class="cell">5</div>
-	<div class="cell">6</div>
-	<div class="cell">7</div>
-	<div class="cell">8</div>
-	<div class="cell">1</div>
-	<div class="cell">2</div>
-	<div class="cell">3</div>
-	<div class="cell">4</div>
-	<div class="cell">5</div>
-	<div class="cell">6</div>
-	<div class="cell">7</div>
-	<div class="cell">8</div>
-	</div>
+	<Container class="container">
+		<Row>
+		  <Col>
+			<div class="board"></div>
+		</Col>
+		</Row>
+	  </Container>
 </main>
