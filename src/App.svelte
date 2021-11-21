@@ -10,11 +10,15 @@
 	});
 
  let pieces = [];
+ let state = false;
 
 	table.subscribe(val => {
+		state = false;
+		setTimeout(function () {
+		let currentTable = val;
 		let currentPieces = [];
-		for(const rowCount in val) {
-			const row = val[rowCount];
+		for(const rowCount in currentTable) {
+			const row = currentTable[rowCount];
 			for(const cellCount in row) {
 				const cell = row[cellCount];
 				const  horizontal= 8 - Number(rowCount);
@@ -26,8 +30,15 @@
 			}
 		}
 		pieces = currentPieces;
+		state = true;
 		console.log(pieces);
+		},100)
 	});
+
+
+	function draging(elem) {
+		console.log(elem);
+	}
 </script>
 <svelte:head>
   <link rel="stylesheet" href="style.css">
@@ -39,10 +50,17 @@
 		<Row>
 		  <Col xl=12>
 			<div class="board">
-			{#each pieces as piece}
-				<div class="piece square-{piece.square} {piece.name}"></div>
-			{/each}
+				{#if state}
+					{#each pieces as piece}
+					{#if piece.name !== ''}
+						<div class="piece square-{piece.square} {piece.name}"  on:drag={draging}></div>
+						{:else}
+						<div class="piece square-{piece.square} {piece.name}"></div>
+						{/if}
+					{/each}	
+				{/if}
 			</div>
+			
 		</Col>
 		<Button class="reset" on:click={first}>reset</Button>
 		</Row>
