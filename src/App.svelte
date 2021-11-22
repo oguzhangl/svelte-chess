@@ -1,45 +1,44 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { Button, Col, Container, Row } from 'sveltestrap';
 	import 'bootstrap/dist/css/bootstrap.min.css';
-	import { first } from './boardUpdate.svelte'; 
-	import { table } from './store.js';
+	import { afterUpdate } from 'svelte';
+	import { table } from './store';
+	import { first } from './boardUpdate.svelte';
 
-	onMount(() => {
-		first();
-	});
 
  let pieces = [];
- let state = false;
+ let currentPieces = [];
+ let move = '';
 
-	table.subscribe(val => {
-		state = false;
-		setTimeout(function () {
-		let currentTable = val;
-		let currentPieces = [];
+ table.subscribe(val => {
+	let currentTable = val;
+		currentPieces = [];
 		for(const rowCount in currentTable) {
 			const row = currentTable[rowCount];
 			for(const cellCount in row) {
 				const cell = row[cellCount];
 				const  horizontal= 8 - Number(rowCount);
-				const vertical = 8 - Number(cellCount); 
+				const vertical = 8 - Number(cellCount);
 				currentPieces.push({
 					name: cell.toString(),
-					square: vertical+''+horizontal
+					square: vertical+''+horizontal,
 				})
 			}
 		}
+		pieces = [];
+ });
+
+ afterUpdate(() => {
 		pieces = currentPieces;
-		state = true;
-		console.log(pieces);
-		},100)
 	});
 
 
-	function draging(elem) {
-		console.log(elem);
-	}
+
+function drag(e) {
+	console.log(e);
+}
 </script>
+
 <svelte:head>
   <link rel="stylesheet" href="style.css">
 </svelte:head>
@@ -49,20 +48,17 @@
 	<Container class="container">
 		<Row>
 		  <Col xl=12>
-			<div class="board">
-				{#if state}
-					{#each pieces as piece}
-					{#if piece.name !== ''}
-						<div class="piece square-{piece.square} {piece.name}"  on:drag={draging}></div>
-						{:else}
-						<div class="piece square-{piece.square} {piece.name}"></div>
-						{/if}
-					{/each}	
-				{/if}
-			</div>
-			
-		</Col>
-		<Button class="reset" on:click={first}>reset</Button>
+				<div class="board">
+						{#each pieces as piece}
+							{#if piece.name !== ''}
+								<div class="piece square-{piece.square} {piece.name}"></div>
+							{:else}
+								<div class="square-{piece.square}"></div>
+							{/if}
+						{/each}
+				</div>
+			</Col>
+			<Button class="reset" on:click={first}>reset</Button>
 		</Row>
 	  </Container>
 </main>

@@ -170,8 +170,8 @@ var app = (function () {
             throw new Error('Function called outside component initialization');
         return current_component;
     }
-    function onMount(fn) {
-        get_current_component().$$.on_mount.push(fn);
+    function afterUpdate(fn) {
+        get_current_component().$$.after_update.push(fn);
     }
     // TODO figure out if we still want to support
     // shorthand events, or if we want to implement
@@ -655,7 +655,7 @@ var app = (function () {
     			button = element("button");
     			if (default_slot_or_fallback) default_slot_or_fallback.c();
     			set_attributes(button, button_data);
-    			add_location(button, file$4, 50, 2, 1094);
+    			add_location(button, file$4, 50, 2, 1044);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -740,7 +740,7 @@ var app = (function () {
     	let current;
     	let mounted;
     	let dispose;
-    	const if_block_creators = [create_if_block_1$1, create_else_block$1];
+    	const if_block_creators = [create_if_block_1, create_else_block$1];
     	const if_blocks = [];
 
     	function select_block_type_1(ctx, dirty) {
@@ -773,7 +773,7 @@ var app = (function () {
     			a = element("a");
     			if_block.c();
     			set_attributes(a, a_data);
-    			add_location(a, file$4, 33, 2, 819);
+    			add_location(a, file$4, 33, 2, 786);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -941,7 +941,7 @@ var app = (function () {
     	return block_1;
     }
 
-    // (61:10)         
+    // (61:10)        
     function fallback_block(ctx) {
     	let current_block_type_index;
     	let if_block;
@@ -1014,7 +1014,7 @@ var app = (function () {
     		block: block_1,
     		id: fallback_block.name,
     		type: "fallback",
-    		source: "(61:10)         ",
+    		source: "(61:10)        ",
     		ctx
     	});
 
@@ -1080,7 +1080,7 @@ var app = (function () {
     }
 
     // (44:4) {#if children}
-    function create_if_block_1$1(ctx) {
+    function create_if_block_1(ctx) {
     	let t;
 
     	const block_1 = {
@@ -1102,7 +1102,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block: block_1,
-    		id: create_if_block_1$1.name,
+    		id: create_if_block_1.name,
     		type: "if",
     		source: "(44:4) {#if children}",
     		ctx
@@ -1506,7 +1506,7 @@ var app = (function () {
     			div = element("div");
     			if (default_slot) default_slot.c();
     			set_attributes(div, div_data);
-    			add_location(div, file$3, 60, 0, 1487);
+    			add_location(div, file$3, 60, 0, 1427);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1766,7 +1766,7 @@ var app = (function () {
     			div = element("div");
     			if (default_slot) default_slot.c();
     			set_attributes(div, div_data);
-    			add_location(div, file$2, 23, 0, 565);
+    			add_location(div, file$2, 23, 0, 542);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1997,7 +1997,7 @@ var app = (function () {
     			div = element("div");
     			if (default_slot) default_slot.c();
     			set_attributes(div, div_data);
-    			add_location(div, file$1, 39, 0, 1019);
+    			add_location(div, file$1, 39, 0, 980);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2213,79 +2213,11 @@ var app = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[2] = list[i];
+    	child_ctx[3] = list[i];
     	return child_ctx;
     }
 
-    // (47:4) {#if state}
-    function create_if_block(ctx) {
-    	let each_1_anchor;
-    	let each_value = /*pieces*/ ctx[0];
-    	validate_each_argument(each_value);
-    	let each_blocks = [];
-
-    	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
-    	}
-
-    	const block = {
-    		c: function create() {
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			each_1_anchor = empty();
-    		},
-    		m: function mount(target, anchor) {
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(target, anchor);
-    			}
-
-    			insert_dev(target, each_1_anchor, anchor);
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty & /*pieces, draging*/ 1) {
-    				each_value = /*pieces*/ ctx[0];
-    				validate_each_argument(each_value);
-    				let i;
-
-    				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context(ctx, each_value, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    					} else {
-    						each_blocks[i] = create_each_block(child_ctx);
-    						each_blocks[i].c();
-    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
-    					}
-    				}
-
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
-    				}
-
-    				each_blocks.length = each_value.length;
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			destroy_each(each_blocks, detaching);
-    			if (detaching) detach_dev(each_1_anchor);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_if_block.name,
-    		type: "if",
-    		source: "(47:4) {#if state}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (51:6) {:else}
+    // (47:7) {:else}
     function create_else_block(ctx) {
     	let div;
     	let div_class_value;
@@ -2293,14 +2225,14 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			div = element("div");
-    			attr_dev(div, "class", div_class_value = "piece square-" + /*piece*/ ctx[2].square + " " + /*piece*/ ctx[2].name);
-    			add_location(div, file, 51, 6, 1471);
+    			attr_dev(div, "class", div_class_value = "square-" + /*piece*/ ctx[3].square);
+    			add_location(div, file, 47, 8, 1287);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*pieces*/ 1 && div_class_value !== (div_class_value = "piece square-" + /*piece*/ ctx[2].square + " " + /*piece*/ ctx[2].name)) {
+    			if (dirty & /*pieces*/ 1 && div_class_value !== (div_class_value = "square-" + /*piece*/ ctx[3].square)) {
     				attr_dev(div, "class", div_class_value);
     			}
     		},
@@ -2313,63 +2245,54 @@ var app = (function () {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(51:6) {:else}",
+    		source: "(47:7) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (49:5) {#if piece.name !== ''}
-    function create_if_block_1(ctx) {
+    // (45:7) {#if piece.name !== ''}
+    function create_if_block(ctx) {
     	let div;
     	let div_class_value;
-    	let mounted;
-    	let dispose;
 
     	const block = {
     		c: function create() {
     			div = element("div");
-    			attr_dev(div, "class", div_class_value = "piece square-" + /*piece*/ ctx[2].square + " " + /*piece*/ ctx[2].name);
-    			add_location(div, file, 49, 6, 1369);
+    			attr_dev(div, "class", div_class_value = "piece square-" + /*piece*/ ctx[3].square + " " + /*piece*/ ctx[3].name);
+    			add_location(div, file, 45, 8, 1201);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
-
-    			if (!mounted) {
-    				dispose = listen_dev(div, "drag", draging, false, false, false);
-    				mounted = true;
-    			}
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*pieces*/ 1 && div_class_value !== (div_class_value = "piece square-" + /*piece*/ ctx[2].square + " " + /*piece*/ ctx[2].name)) {
+    			if (dirty & /*pieces*/ 1 && div_class_value !== (div_class_value = "piece square-" + /*piece*/ ctx[3].square + " " + /*piece*/ ctx[3].name)) {
     				attr_dev(div, "class", div_class_value);
     			}
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
-    			mounted = false;
-    			dispose();
     		}
     	};
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_1.name,
+    		id: create_if_block.name,
     		type: "if",
-    		source: "(49:5) {#if piece.name !== ''}",
+    		source: "(45:7) {#if piece.name !== ''}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (48:5) {#each pieces as piece}
+    // (44:6) {#each pieces as piece}
     function create_each_block(ctx) {
     	let if_block_anchor;
 
     	function select_block_type(ctx, dirty) {
-    		if (/*piece*/ ctx[2].name !== '') return create_if_block_1;
+    		if (/*piece*/ ctx[3].name !== '') return create_if_block;
     		return create_else_block;
     	}
 
@@ -2408,46 +2331,70 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(48:5) {#each pieces as piece}",
+    		source: "(44:6) {#each pieces as piece}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (45:4) <Col xl=12>
+    // (42:4) <Col xl=12>
     function create_default_slot_3(ctx) {
     	let div;
-    	let if_block = /*state*/ ctx[1] && create_if_block(ctx);
+    	let each_value = /*pieces*/ ctx[0];
+    	validate_each_argument(each_value);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value.length; i += 1) {
+    		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
+    	}
 
     	const block = {
     		c: function create() {
     			div = element("div");
-    			if (if_block) if_block.c();
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
     			attr_dev(div, "class", "board");
-    			add_location(div, file, 45, 3, 1265);
+    			add_location(div, file, 42, 4, 1109);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
-    			if (if_block) if_block.m(div, null);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(div, null);
+    			}
     		},
     		p: function update(ctx, dirty) {
-    			if (/*state*/ ctx[1]) {
-    				if (if_block) {
-    					if_block.p(ctx, dirty);
-    				} else {
-    					if_block = create_if_block(ctx);
-    					if_block.c();
-    					if_block.m(div, null);
+    			if (dirty & /*pieces*/ 1) {
+    				each_value = /*pieces*/ ctx[0];
+    				validate_each_argument(each_value);
+    				let i;
+
+    				for (i = 0; i < each_value.length; i += 1) {
+    					const child_ctx = get_each_context(ctx, each_value, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(div, null);
+    					}
     				}
-    			} else if (if_block) {
-    				if_block.d(1);
-    				if_block = null;
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value.length;
     			}
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
-    			if (if_block) if_block.d();
+    			destroy_each(each_blocks, detaching);
     		}
     	};
 
@@ -2455,14 +2402,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_3.name,
     		type: "slot",
-    		source: "(45:4) <Col xl=12>",
+    		source: "(42:4) <Col xl=12>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (59:2) <Button class="reset" on:click={first}>
+    // (53:3) <Button class="reset" on:click={first}>
     function create_default_slot_2(ctx) {
     	let t;
 
@@ -2482,14 +2429,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_2.name,
     		type: "slot",
-    		source: "(59:2) <Button class=\\\"reset\\\" on:click={first}>",
+    		source: "(53:3) <Button class=\\\"reset\\\" on:click={first}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (44:2) <Row>
+    // (41:2) <Row>
     function create_default_slot_1(ctx) {
     	let col;
     	let t;
@@ -2531,14 +2478,14 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const col_changes = {};
 
-    			if (dirty & /*$$scope, pieces, state*/ 35) {
+    			if (dirty & /*$$scope, pieces*/ 65) {
     				col_changes.$$scope = { dirty, ctx };
     			}
 
     			col.$set(col_changes);
     			const button_changes = {};
 
-    			if (dirty & /*$$scope*/ 32) {
+    			if (dirty & /*$$scope*/ 64) {
     				button_changes.$$scope = { dirty, ctx };
     			}
 
@@ -2566,14 +2513,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_1.name,
     		type: "slot",
-    		source: "(44:2) <Row>",
+    		source: "(41:2) <Row>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (43:1) <Container class="container">
+    // (40:1) <Container class="container">
     function create_default_slot(ctx) {
     	let row;
     	let current;
@@ -2597,7 +2544,7 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const row_changes = {};
 
-    			if (dirty & /*$$scope, pieces, state*/ 35) {
+    			if (dirty & /*$$scope, pieces*/ 65) {
     				row_changes.$$scope = { dirty, ctx };
     			}
 
@@ -2621,7 +2568,7 @@ var app = (function () {
     		block,
     		id: create_default_slot.name,
     		type: "slot",
-    		source: "(43:1) <Container class=\\\"container\\\">",
+    		source: "(40:1) <Container class=\\\"container\\\">",
     		ctx
     	});
 
@@ -2652,8 +2599,8 @@ var app = (function () {
     			create_component(container.$$.fragment);
     			attr_dev(link, "rel", "stylesheet");
     			attr_dev(link, "href", "style.css");
-    			add_location(link, file, 37, 2, 1134);
-    			add_location(main, file, 41, 0, 1196);
+    			add_location(link, file, 34, 2, 977);
+    			add_location(main, file, 38, 0, 1039);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2668,7 +2615,7 @@ var app = (function () {
     		p: function update(ctx, [dirty]) {
     			const container_changes = {};
 
-    			if (dirty & /*$$scope, pieces, state*/ 35) {
+    			if (dirty & /*$$scope, pieces*/ 65) {
     				container_changes.$$scope = { dirty, ctx };
     			}
 
@@ -2702,50 +2649,41 @@ var app = (function () {
     	return block;
     }
 
-    function draging(elem) {
-    	console.log(elem);
+    function drag(e) {
+    	console.log(e);
     }
 
     function instance($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('App', slots, []);
-
-    	onMount(() => {
-    		first();
-    	});
-
     	let pieces = [];
-    	let state = false;
+    	let currentPieces = [];
+    	let move = '';
 
     	table.subscribe(val => {
-    		$$invalidate(1, state = false);
+    		let currentTable = val;
+    		currentPieces = [];
 
-    		setTimeout(
-    			function () {
-    				let currentTable = val;
-    				let currentPieces = [];
+    		for (const rowCount in currentTable) {
+    			const row = currentTable[rowCount];
 
-    				for (const rowCount in currentTable) {
-    					const row = currentTable[rowCount];
+    			for (const cellCount in row) {
+    				const cell = row[cellCount];
+    				const horizontal = 8 - Number(rowCount);
+    				const vertical = 8 - Number(cellCount);
 
-    					for (const cellCount in row) {
-    						const cell = row[cellCount];
-    						const horizontal = 8 - Number(rowCount);
-    						const vertical = 8 - Number(cellCount);
+    				currentPieces.push({
+    					name: cell.toString(),
+    					square: vertical + '' + horizontal
+    				});
+    			}
+    		}
 
-    						currentPieces.push({
-    							name: cell.toString(),
-    							square: vertical + '' + horizontal
-    						});
-    					}
-    				}
+    		$$invalidate(0, pieces = []);
+    	});
 
-    				$$invalidate(0, pieces = currentPieces);
-    				$$invalidate(1, state = true);
-    				console.log(pieces);
-    			},
-    			100
-    		);
+    	afterUpdate(() => {
+    		$$invalidate(0, pieces = currentPieces);
     	});
 
     	const writable_props = [];
@@ -2755,28 +2693,30 @@ var app = (function () {
     	});
 
     	$$self.$capture_state = () => ({
-    		onMount,
     		Button,
     		Col,
     		Container,
     		Row,
-    		first,
+    		afterUpdate,
     		table,
+    		first,
     		pieces,
-    		state,
-    		draging
+    		currentPieces,
+    		move,
+    		drag
     	});
 
     	$$self.$inject_state = $$props => {
     		if ('pieces' in $$props) $$invalidate(0, pieces = $$props.pieces);
-    		if ('state' in $$props) $$invalidate(1, state = $$props.state);
+    		if ('currentPieces' in $$props) currentPieces = $$props.currentPieces;
+    		if ('move' in $$props) move = $$props.move;
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [pieces, state];
+    	return [pieces];
     }
 
     class App extends SvelteComponentDev {

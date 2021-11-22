@@ -1,6 +1,6 @@
 <script context="module">
 
-import {table} from './store.js';
+import { table } from './store.js';
 
 export function first() {
   table.set([
